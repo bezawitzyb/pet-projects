@@ -191,8 +191,16 @@
     yesBtn.addEventListener("click", () => {
       active = false;
       
-      // Start Music (Chrome-friendly gesture trigger)
-      music.play().catch(e => console.log("Music blocked or file missing. Ensure song.mp3 is in the same folder."));
+      // 1. Create/Resume Audio Context (This "wakes up" audio for Chrome)
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // 2. Play the music
+      music.play().catch(e => {
+        console.log("Audio failed. Check if file name matches song.mp3 exactly.");
+      });
       
       buttons.style.display = "none";
       question.style.display = "none";
