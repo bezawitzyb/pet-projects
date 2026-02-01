@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hans ❤️ Bezawit</title>
+  <style>
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 460px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #e63946;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      position: relative;
+      height: 80px;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      transition: all 0.2s ease;
+    }
+
+    #yesBtn {
+      background: #e63946;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+    }
+
+    #noBtn {
+      background: #adb5bd;
+      color: white;
+      left: 50%;
+      transform: translateX(20%);
+    }
+
+    .letter {
+      display: none;
+      margin-top: 20px;
+      animation: fadeIn 1s ease forwards;
+      text-align: left;
+    }
+
+    .letter h2 {
+      color: #e63946;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 0.6; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Hans… ❤️</h1>
+    <p>Will you be my Valentine?</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 🙃</button>
+    </div>
+
+    <div class="letter" id="letter">
+      <h2>My Love,</h2>
+
+        <p>
+        You once messaged me with a confidence that felt slightly ridiculous —
+        like you already <em>knew</em> we’d click in real life.
+        And somehow… you were right.
+        </p>
+
+        <p>
+        From the moment you walked into my life, everything felt warmer, softer,
+        and somehow more right. You make me laugh when I don’t even feel like smiling,
+        you support me in ways you probably don’t even notice, and you make ordinary
+        moments feel special just by being there.
+        </p>
+
+        <p>
+        From early dates and late-night conversations, to trips that turned into
+        memories I’ll carry forever — Middelburg, Austria, Maastricht, Portugal —
+        you’ve become my favorite constant.
+        </p>
+
+        <p>
+        You stood with me not just in the light moments, but in the heavy ones too.
+        When I was grieving, you didn’t try to fix me — you stayed.
+        And that told me everything I needed to know about the kind of man you are.
+        </p>
+
+        <p>
+        Loving you is easy. Choosing you is easy.
+        And today, tomorrow, and every day after,
+        I choose you — happily and wholeheartedly.
+        </p>
+
+        <p>
+        Loving you feels calm and exciting at the same time.
+        Safe, but never boring.
+        Certain, but always chosen.
+        </p>
+
+        <p>
+        Thank you for being you.
+        Thank you for being mine.
+        </p>
+
+        <p><strong>Happy Valentine’s Day ❤️</strong></p>
+        <p style="text-align:right;">— Bezawit</p>
+
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const letter = document.getElementById("letter");
+
+    function moveNoButton() {
+      const card = document.querySelector(".card");
+      const maxX = card.offsetWidth - noBtn.offsetWidth;
+      const maxY = card.offsetHeight - noBtn.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      document.querySelector(".buttons").style.display = "none";
+      letter.style.display = "block";
+      launchConfetti();
+    });
+
+    /* Confetti effect */
+    function launchConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+    }
+  </script>
+
+</body>
+</html>
