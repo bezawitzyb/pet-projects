@@ -49,7 +49,7 @@
       border: none;
       cursor: pointer;
       position: absolute;
-      transition: left 0.1s ease-out, top 0.1s ease-out; /* Snappier for Chrome */
+      transition: left 0.1s ease-out, top 0.1s ease-out;
       user-select: none;
       touch-action: manipulation;
     }
@@ -167,47 +167,37 @@
 
     function flee() {
       if (!active) return;
-      // Define limits to keep the 'No' button inside the white card
       const padding = 20;
       const maxX = card.clientWidth - noBtn.offsetWidth - padding;
       const maxY = card.clientHeight - noBtn.offsetHeight - padding;
-
       const randomX = Math.max(padding, Math.random() * maxX);
       const randomY = Math.max(padding, Math.random() * maxY);
-
       noBtn.style.left = randomX + "px";
       noBtn.style.top = randomY + "px";
       noBtn.style.transform = "none";
       noBtn.textContent = "No 😛";
     }
 
-    // Event listeners for Chrome and Mobile
     noBtn.addEventListener("mouseover", flee);
-    noBtn.addEventListener("touchstart", (e) => { 
-      e.preventDefault(); 
-      flee(); 
-    });
+    noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); flee(); });
 
     yesBtn.addEventListener("click", () => {
       active = false;
       
-      // 1. Create/Resume Audio Context (This "wakes up" audio for Chrome)
+      // Chrome/iOS Audio Context fix
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
 
-      // 2. Play the music
-      music.play().catch(e => {
-        console.log("Audio failed. Check if file name matches song.mp3 exactly.");
-      });
+      // Play the song
+      music.play().catch(e => console.log("Music blocked or file missing. Verify song.mp3 naming."));
       
       buttons.style.display = "none";
       question.style.display = "none";
       congrats.style.display = "block";
       letter.style.display = "block";
       
-      // Infinite hearts for the celebration
       setInterval(createHeart, 300);
     });
 
@@ -219,8 +209,6 @@
       heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
       heart.style.fontSize = (Math.random() * 20 + 15) + "px";
       document.body.appendChild(heart);
-      
-      // Cleanup heart after animation
       setTimeout(() => heart.remove(), 6000);
     }
   </script>
