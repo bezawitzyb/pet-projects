@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hans ❤️ Bez</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
   <style>
     body {
@@ -15,37 +15,41 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      /* Prevents pull-to-refresh on mobile */
+      overscroll-behavior-y: none; 
     }
 
     .card {
       background: white;
-      padding: 32px 28px;
+      padding: 24px;
       border-radius: 24px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.2);
       text-align: center;
       max-width: 460px;
-      width: 90%;
-      max-height: 90vh;
+      width: 85%;
+      max-height: 85vh; /* Constraints the card height */
       display: flex;
       flex-direction: column;
-      overflow: hidden; /* keeps the card contained */
+      position: relative;
     }
 
     h1 {
       color: #e63946;
-      margin-bottom: 10px;
+      margin: 0 0 10px 0;
+      flex-shrink: 0;
     }
 
-    p {
+    .main-p {
       color: #444;
       font-size: 1.05rem;
-      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-shrink: 0;
     }
 
     .buttons {
-      margin-top: 30px;
+      margin-top: 10px;
       position: relative;
-      height: 90px;
+      height: 100px;
       flex-shrink: 0;
     }
 
@@ -56,55 +60,67 @@
       border: none;
       cursor: pointer;
       position: absolute;
-      transition: left 0.15s ease, top 0.15s ease;
+      transition: left 0.2s ease, top 0.2s ease;
       user-select: none;
+      touch-action: manipulation;
     }
 
     #yesBtn {
       background: #e63946;
       color: white;
       left: 50%;
-      transform: translateX(-120%);
+      transform: translateX(-110%);
+      z-index: 10;
     }
 
     #noBtn {
       background: #adb5bd;
       color: white;
       left: 50%;
-      transform: translateX(20%);
-      pointer-events: none;
+      transform: translateX(10%);
     }
 
     .congrats {
       display: none;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
       color: #e63946;
-      margin: 20px 0 10px;
-      animation: fadeIn 0.8s ease forwards;
+      margin: 10px 0;
       flex-shrink: 0;
+      animation: fadeIn 0.8s ease forwards;
     }
 
-    /* ✅ SCROLLABLE LETTER */
+    /* ✅ ENHANCED SCROLLABLE LETTER */
     .letter {
       display: none;
-      margin-top: 10px;
       text-align: left;
-      max-height: 50vh; /* adjust height as needed */
       overflow-y: auto;
-      padding-right: 10px;
+      padding: 10px 15px 10px 5px;
+      margin-top: 10px;
+      border-top: 1px solid #eee;
+      
+      /* Crucial for iOS/Mobile scrolling */
+      flex: 1; 
+      -webkit-overflow-scrolling: touch; 
+      overscroll-behavior-y: contain;
+      
       animation: fadeIn 1s ease forwards;
-      -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
-      scroll-behavior: smooth; /* desktop smooth scroll */
     }
 
     .letter h2 {
       color: #e63946;
       text-align: center;
-      margin-top: 0;
+      margin-top: 10px;
+    }
+
+    .letter p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -123,22 +139,21 @@
       to { transform: translateY(-110vh); opacity: 0; }
     }
 
-    /* Desktop scrollbar (WebKit: Chrome, Safari, macOS) */
+    /* Custom Scrollbar */
     .letter::-webkit-scrollbar {
       width: 6px;
     }
-
     .letter::-webkit-scrollbar-thumb {
-      background: rgba(230,57,70,0.4);
-      border-radius: 4px;
+      background: rgba(230,57,70,0.3);
+      border-radius: 10px;
     }
   </style>
 </head>
 
 <body>
   <div class="card">
-    <h1>Mr. Babe… ❤️</h1>
-    <p>Will you be my Valentine?</p>
+    <h1 id="title">Mr. Babe… ❤️</h1>
+    <p id="question" class="main-p">Will you be my Valentine?</p>
 
     <div class="buttons" id="buttons">
       <button id="yesBtn">Yes 💖</button>
@@ -146,95 +161,33 @@
     </div>
 
     <div class="congrats" id="congrats">
-      🎉 Congratulations — you made the one and only correct choice.
+      🎉 You made the correct choice.
     </div>
 
     <div class="letter" id="letter">
       <h2>My Love,</h2>
-      <p>
-        You once messaged me with a confidence that felt almost bold;
-        like you already knew something I hadn’t figured out yet.
-        And somehow, you were right.
-        From the very beginning, there was a sense of knowing with you;
-        a quiet certainty I never questioned.
-      </p>
+      <p>You once messaged me with a confidence that felt almost bold; like you already knew something I hadn’t figured out yet. And somehow, you were right. From the very beginning, there was a sense of knowing with you; a quiet certainty I never questioned.</p>
+      
+      <p>Being with you feels like exhaling. You bring calm where there could be chaos, laughter where there could be heaviness, and steadiness where I sometimes feel unsure. With you, I feel deeply loved for exactly who I am.</p>
 
-      <p>
-        Being with you feels like exhaling.
-        You bring calm where there could be chaos,
-        laughter where there could be heaviness,
-        and steadiness where I sometimes feel unsure.
-        With you, I feel deeply loved for exactly who I am.
-      </p>
+      <p>From our early dates and long conversations, to trips that turned into pieces of our story; every memory feels warmer because it has you in it. You have a way of making moments feel meaningful simply by being fully there with me.</p>
 
-      <p>
-        From our early dates and long conversations,
-        to trips that turned into pieces of our story;
-        every memory feels warmer because it has you in it.
-        You have a way of making moments feel meaningful
-        simply by being fully there with me.
-      </p>
+      <p>What I admire most about you is not only how you love me in joy, but how intentionally present you are in the difficult moments. You don’t rush me, you stand beside me, grounded and patient, reminding me through your presence that I am never alone.</p>
 
-      <p>
-        What I admire most about you is not only how you love me in joy,
-        but how intentionally present you are in the difficult moments.
-        You don’t rush me, you stand beside me, grounded and patient,
-        reminding me through your presence that I am never alone.
-      </p>
+      <p>I want you to know how incredibly proud I am of you. Of the way you work relentlessly toward your goals, even on the late nights when no one is watching. Watching you build the life you believe in is one of the most attractive and inspiring things about you.</p>
 
-      <p>
-        I want you to know how incredibly proud I am of you.
-        Of the way you work relentlessly toward your goals,
-        even on the late nights when no one is watching.
-        Of the discipline, focus, and quiet determination
-        you bring to turning your vision into something real.
-        Watching you build the life you believe in
-        is one of the most attractive and inspiring things about you.
-      </p>
+      <p>I admire your faith deeply; the way you commit to it with intention and consistency. Your fasting, your prayers, your unwavering discipline speak to the strength of your character and the depth of your values.</p>
 
-      <p>
-        I admire your faith deeply; the way you commit to it with intention and consistency.
-        Your fasting, your prayers, your unwavering discipline
-        speak to the strength of your character
-        and the depth of your values.
-        You move with purpose, and it shows in everything you do.
-      </p>
+      <p>Thank you for believing in me, especially while I am changing my career and stepping into the unknown. You made me feel capable when I doubted myself.</p>
 
-      <p>
-        Thank you for believing in me,
-        especially while I am changing my career
-        and stepping into the unknown.
-        There were moments when things felt uncertain and heavy,
-        and I know, truly, that it would not have been as easy
-        without your encouragement, reassurance,
-        and steady belief in me.
-        You made me feel capable when I doubted myself.
-      </p>
+      <p>Loving you feels safe and exciting at the same time. I feel chosen, supported, desired, and respected. With you, the future feels intentional; not rushed, but built with care.</p>
 
-      <p>
-        Loving you feels safe and exciting at the same time.
-        I feel chosen, supported, desired, and respected.
-        With you, the future feels intentional;
-        not rushed, not forced, but built with care.
-        Choosing you feels natural, steady, and deeply right.
-      </p>
+      <p>I trust that God is making a way for us, shaping our paths, and preparing a future we will walk into together.</p>
 
-      <p>
-        I believe our prayers are being answered: one by one,
-        exactly when the timing is right.
-        I trust that God is making a way for us,
-        shaping our paths, and preparing a future
-        we will walk into together.
-      </p>
-
-      <p>
-        Thank you for loving me the way you do.
-        Thank you for being my partner,
-        my calm, my strength, and my home.
-      </p>
+      <p>Thank you for loving me the way you do. Thank you for being my partner, my calm, my strength, and my home.</p>
 
       <p><strong>Happy Valentine’s Day ❤️</strong></p>
-      <p style="text-align:right;">Miss Bez</p>
+      <p style="text-align:right; padding-bottom: 20px;">Miss Bez</p>
     </div>
   </div>
 
@@ -244,42 +197,54 @@
     const letter = document.getElementById("letter");
     const congrats = document.getElementById("congrats");
     const buttons = document.getElementById("buttons");
+    const title = document.getElementById("title");
+    const question = document.getElementById("question");
     const card = document.querySelector(".card");
 
-    let active = true; // disable NO after YES
+    let active = true;
 
     function flee() {
       if (!active) return;
+      // Keep "No" button movement within the card boundaries
+      const padding = 20;
+      const maxX = card.clientWidth - noBtn.offsetWidth - padding;
+      const maxY = card.clientHeight - noBtn.offsetHeight - padding;
 
-      const rect = card.getBoundingClientRect();
-      const maxX = rect.width - noBtn.offsetWidth;
-      const maxY = rect.height - noBtn.offsetHeight;
+      const randomX = Math.max(padding, Math.random() * maxX);
+      const randomY = Math.max(padding, Math.random() * maxY);
 
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+      noBtn.style.transform = "none"; // Remove the initial centering transform
       noBtn.textContent = "No 😛";
     }
 
-    document.addEventListener("mousemove", flee);
-    document.addEventListener("touchmove", flee);
+    // Use mouseover for desktop and touchstart for mobile for better "flee" feel
+    noBtn.addEventListener("mouseover", flee);
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault(); // Prevents accidental clicks on mobile
+        flee();
+    });
 
     yesBtn.addEventListener("click", () => {
       active = false;
       buttons.style.display = "none";
+      question.style.display = "none";
       congrats.style.display = "block";
       letter.style.display = "block";
       launchConfetti();
     });
 
     function launchConfetti() {
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 30; i++) {
         const heart = document.createElement("div");
         heart.className = "heart";
         heart.textContent = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
+        setTimeout(() => heart.remove(), 6000);
       }
     }
   </script>
